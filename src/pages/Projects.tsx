@@ -7,6 +7,7 @@ import { MapPin, Users, Calendar, ArrowLeft, Search, Filter } from "lucide-react
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
 
 const Projects = () => {
   const navigate = useNavigate();
@@ -28,92 +29,21 @@ const Projects = () => {
     }
   }, []);
   
-  const projects = [
-    {
-      id: 1,
-      title: "بناء مدرسة في القصيم",
-      description: "مشروع لبناء مدرسة حديثة تخدم ٥٠٠ طالب وطالبة في منطقة القصيم",
-      location: "القصيم",
-      target: 500000,
-      raised: 350000,
-      donors: 234,
-      daysLeft: 15,
-      category: "تعليم",
-      image: "🏫",
-      urgent: false,
-      dateCreated: "2024-01-01"
-    },
-    {
-      id: 2,
-      title: "مشروع كسوة الشتاء",
-      description: "توزيع الملابس الشتوية والبطانيات للأسر المحتاجة في المناطق الباردة",
-      location: "تبوك",
-      target: 200000,
-      raised: 180000,
-      donors: 456,
-      daysLeft: 8,
-      category: "إغاثة",
-      image: "🧥",
-      urgent: true,
-      dateCreated: "2024-01-05"
-    },
-    {
-      id: 3,
-      title: "حفر بئر ماء",
-      description: "حفر بئر ماء عذب لخدمة قرية نائية وتوفير المياه النظيفة للسكان",
-      location: "نجران",
-      target: 75000,
-      raised: 32000,
-      donors: 89,
-      daysLeft: 30,
-      category: "بنية تحتية",
-      image: "💧",
-      urgent: false,
-      dateCreated: "2023-12-20"
-    },
-    {
-      id: 4,
-      title: "مستشفى ميداني للاجئين",
-      description: "إنشاء مستشفى ميداني لتقديم الرعاية الطبية العاجلة للاجئين",
-      location: "الحدود الشمالية",
-      target: 800000,
-      raised: 245000,
-      donors: 178,
-      daysLeft: 45,
-      category: "صحة",
-      image: "🏥",
-      urgent: true,
-      dateCreated: "2024-01-10"
-    },
-    {
-      id: 5,
-      title: "مشروع الإفطار المدرسي",
-      description: "توفير وجبات إفطار صحية ومغذية للطلاب في المدارس النائية",
-      location: "جازان",
-      target: 150000,
-      raised: 95000,
-      donors: 312,
-      daysLeft: 20,
-      category: "تعليم",
-      image: "🍎",
-      urgent: false,
-      dateCreated: "2023-12-15"
-    },
-    {
-      id: 6,
-      title: "إعادة تأهيل دار الأيتام",
-      description: "تجديد وتطوير مرافق دار الأيتام لتوفير بيئة أفضل للأطفال",
-      location: "مكة المكرمة",
-      target: 300000,
-      raised: 120000,
-      donors: 156,
-      daysLeft: 35,
-      category: "إغاثة",
-      image: "🏠",
-      urgent: false,
-      dateCreated: "2023-12-25"
-    }
-  ];
+  const [projects, setProjects] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const { data } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('status', 'active')
+        .order('created_at', { ascending: false });
+      
+      setProjects(data || []);
+    };
+    
+    fetchProjects();
+  }, []);
 
   const categories = ["الكل", "تعليم", "صحة", "إغاثة", "بنية تحتية"];
 
@@ -130,25 +60,36 @@ const Projects = () => {
     return amount.toString();
   };
 
+  const getCategoryIcon = (category: string) => {
+    const icons: Record<string, string> = {
+      'تعليم': '🏫',
+      'صحة': '🏥', 
+      'إغاثة': '🧥',
+      'بنية تحتية': '💧',
+      'default': '🏛️'
+    };
+    return icons[category] || icons.default;
+  };
+
   const filteredProjects = projects
     .filter(project => {
       const matchesCategory = selectedCategory === "الكل" || project.category === selectedCategory;
       const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           project.location.toLowerCase().includes(searchTerm.toLowerCase());
+                           (project.description && project.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                           (project.location && project.location.toLowerCase().includes(searchTerm.toLowerCase()));
       return matchesCategory && matchesSearch;
     })
     .sort((a, b) => {
       switch (sortBy) {
         case "progress":
-          return getProgressPercentage(b.raised, b.target) - getProgressPercentage(a.raised, a.target);
+          return getProgressPercentage(b.raised_amount || 0, b.goal_amount || 1) - getProgressPercentage(a.raised_amount || 0, a.goal_amount || 1);
         case "urgent":
-          return Number(b.urgent) - Number(a.urgent);
+          return Number(b.urgency_level === 'high') - Number(a.urgency_level === 'high');
         case "amount":
-          return b.target - a.target;
+          return (b.goal_amount || 0) - (a.goal_amount || 0);
         case "newest":
         default:
-          return new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime();
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       }
     });
 
@@ -236,18 +177,18 @@ const Projects = () => {
                 <Card 
                   key={project.id} 
                   className={`overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-white/80 backdrop-blur-sm cursor-pointer ${
-                    project.urgent ? 'ring-2 ring-red-500/20' : ''
+                    project.urgency_level === 'high' ? 'ring-2 ring-red-500/20' : ''
                   }`}
                   onClick={() => navigate(`/project/${project.id}`)}
                 >
                   <CardHeader className="pb-4">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="text-4xl">{project.image}</div>
+                      <div className="text-4xl">{getCategoryIcon(project.category)}</div>
                       <div className="flex flex-col gap-2">
                         <span className="bg-primary-light text-primary px-3 py-1 rounded-full text-sm font-medium">
-                          {project.category}
+                          {project.category || 'عام'}
                         </span>
-                        {project.urgent && (
+                        {project.urgency_level === 'high' && (
                           <span className="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-medium">
                             عاجل
                           </span>
@@ -258,7 +199,7 @@ const Projects = () => {
                       {project.title}
                     </h3>
                     <p className="text-gray-700 text-sm leading-relaxed">
-                      {project.description}
+                      {project.description || project.short_description}
                     </p>
                   </CardHeader>
 
@@ -268,19 +209,19 @@ const Projects = () => {
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">المبلغ المجمع</span>
                         <span className="font-bold text-primary">
-                          {formatAmount(project.raised)} ر.س
+                          {formatAmount(project.raised_amount || 0)} ر.س
                         </span>
                       </div>
                       <Progress 
-                        value={getProgressPercentage(project.raised, project.target)} 
+                        value={getProgressPercentage(project.raised_amount || 0, project.goal_amount || 1)} 
                         className="h-2"
                       />
                       <div className="flex justify-between text-sm">
                         <span className="text-gray-600">
-                          {getProgressPercentage(project.raised, project.target).toFixed(0)}% مكتمل
+                          {getProgressPercentage(project.raised_amount || 0, project.goal_amount || 1).toFixed(0)}% مكتمل
                         </span>
                         <span className="text-gray-600">
-                          الهدف: {formatAmount(project.target)} ر.س
+                          الهدف: {formatAmount(project.goal_amount || 0)} ر.س
                         </span>
                       </div>
                     </div>
@@ -291,19 +232,19 @@ const Projects = () => {
                         <div className="flex items-center justify-center gap-1 text-gray-600">
                           <MapPin className="w-4 h-4" />
                         </div>
-                        <div className="text-sm font-medium text-gray-900">{project.location}</div>
+                        <div className="text-sm font-medium text-gray-900">{project.location || 'غير محدد'}</div>
                       </div>
                       <div className="space-y-1">
                         <div className="flex items-center justify-center gap-1 text-gray-600">
                           <Users className="w-4 h-4" />
                         </div>
-                        <div className="text-sm font-medium text-gray-900">{project.donors} متبرع</div>
+                        <div className="text-sm font-medium text-gray-900">0 متبرع</div>
                       </div>
                       <div className="space-y-1">
                         <div className="flex items-center justify-center gap-1 text-gray-600">
                           <Calendar className="w-4 h-4" />
                         </div>
-                        <div className="text-sm font-medium text-gray-900">{project.daysLeft} يوم</div>
+                        <div className="text-sm font-medium text-gray-900">متاح</div>
                       </div>
                     </div>
                   </CardContent>
