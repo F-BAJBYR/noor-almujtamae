@@ -9,6 +9,8 @@ import { supabase } from "@/integrations/supabase/client";
 const ProjectsSection = () => {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<any[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("الكل");
+  const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
   
   useEffect(() => {
     const fetchProjects = async () => {
@@ -24,6 +26,14 @@ const ProjectsSection = () => {
     
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    if (selectedCategory === "الكل") {
+      setFilteredProjects(projects);
+    } else {
+      setFilteredProjects(projects.filter(project => project.category === selectedCategory));
+    }
+  }, [projects, selectedCategory]);
 
   const getProgressPercentage = (raised: number, target: number) => {
     return Math.min((raised / target) * 100, 100);
@@ -67,9 +77,10 @@ const ProjectsSection = () => {
           {["الكل", "تعليم", "صحة", "إغاثة", "بنية تحتية"].map((category) => (
             <Button
               key={category}
-              variant={category === "الكل" ? "default" : "outline"}
+              variant={category === selectedCategory ? "default" : "outline"}
+              onClick={() => setSelectedCategory(category)}
               className={`px-6 py-2 rounded-full font-medium transition-all ${
-                category === "الكل" 
+                category === selectedCategory 
                   ? "bg-primary text-primary-foreground" 
                   : "border-2 border-primary/20 text-primary hover:bg-primary hover:text-primary-foreground"
               }`}
@@ -81,7 +92,7 @@ const ProjectsSection = () => {
 
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <Card key={project.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-lg bg-white/80 backdrop-blur-sm">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between mb-4">
