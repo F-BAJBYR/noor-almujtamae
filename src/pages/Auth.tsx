@@ -15,6 +15,7 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isResending, setIsResending] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -93,6 +94,27 @@ const Auth = () => {
     }
   };
 
+  const handleResend = async () => {
+    if (!email) {
+      toast({
+        title: "أدخل البريد الإلكتروني",
+        description: "يرجى إدخال بريدك الإلكتروني ثم اضغط إعادة إرسال.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setIsResending(true);
+    try {
+      const { error } = await supabase.auth.resend({ type: 'signup', email });
+      if (error) throw error;
+      toast({ title: "تم إرسال رسالة التأكيد", description: "تحقق من بريدك (قد تكون في الجنك)." });
+    } catch (err: any) {
+      toast({ title: "تعذر إرسال الرسالة", description: err?.message ?? 'حدث خطأ غير متوقع', variant: 'destructive' });
+    } finally {
+      setIsResending(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-secondary/10 p-4">
       <Card className="w-full max-w-md">
@@ -145,6 +167,18 @@ const Auth = () => {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
                 </Button>
+                <div className="text-sm text-muted-foreground mt-2 flex items-center justify-between">
+                  <span>لم يصلك بريد التأكيد؟</span>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleResend}
+                    disabled={isResending || !email}
+                  >
+                    {isResending ? "جاري الإرسال..." : "إعادة إرسال رسالة التأكيد"}
+                  </Button>
+                </div>
               </form>
             </TabsContent>
             
