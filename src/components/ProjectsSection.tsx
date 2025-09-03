@@ -74,7 +74,7 @@ const ProjectsSection = () => {
 
         {/* Filter Tabs */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
-          {["الكل", "تعليم", "صحة", "إغاثة", "بنية تحتية"].map((category) => (
+          {["الكل", "التعليم", "الصحة", "الإغاثة", "المياه والصرف الصحي", "التغذية", "الرعاية الاجتماعية", "مسجد"].map((category) => (
             <Button
               key={category}
               variant={category === selectedCategory ? "default" : "outline"}
