@@ -7,28 +7,28 @@ const StatsSection = () => {
       number: "٢٠,٥٤٢,٠٠٠",
       label: "ريال إجمالي التبرعات",
       description: "منذ إطلاق المنصة",
-      color: "text-primary"
+      color: "text-gray-900"
     },
     {
       icon: Users,
       number: "١٢٣,٤٥٦",
       label: "متبرع كريم",
       description: "من جميع أنحاء المملكة",
-      color: "text-secondary"
+      color: "text-gray-900"
     },
     {
       icon: Building2,
       number: "٨٩٤",
       label: "مشروع مكتمل",
       description: "تم تنفيذها بنجاح",
-      color: "text-primary"
+      color: "text-gray-900"
     },
     {
       icon: TrendingUp,
       number: "٩٨%",
       label: "معدل نجاح المشاريع",
       description: "شفافية ومتابعة مستمرة",
-      color: "text-secondary"
+      color: "text-gray-900"
     }
   ];
 
