@@ -74,22 +74,22 @@ const HeroSection = () => {
           {/* Stats Cards */}
           <div className="grid grid-cols-2 gap-6 animate-slide-up">
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-3xl font-bold text-primary mb-2">+٥٠٠</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">+٥٠٠</div>
               <div className="text-sm text-foreground/70">مشروع مكتمل</div>
             </div>
             
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-3xl font-bold text-secondary mb-2">+١٠٠ك</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">+١٠٠ك</div>
               <div className="text-sm text-foreground/70">متبرع كريم</div>
             </div>
             
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-3xl font-bold text-primary mb-2">+٢٠م</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">+٢٠م</div>
               <div className="text-sm text-foreground/70">ريال تبرعات</div>
             </div>
             
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-3xl font-bold text-secondary mb-2">+١٣</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">+١٣</div>
               <div className="text-sm text-foreground/70">منطقة بالمملكة</div>
             </div>
           </div>
