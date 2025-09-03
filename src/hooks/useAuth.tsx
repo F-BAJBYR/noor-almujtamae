@@ -41,13 +41,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .from("profiles")
         .select("*")
         .eq("user_id", userId)
-        .single();
+        .maybeSingle();
 
       const { data: roleData } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", userId)
-        .single();
+        .maybeSingle();
 
       setProfile(profileData);
       setUserRole(roleData?.role || "user");
@@ -59,17 +59,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          setTimeout(() => {
+            fetchProfile(session.user!.id).finally(() => setIsLoading(false));
+          }, 0);
         } else {
           setProfile(null);
           setUserRole(null);
+          setIsLoading(false);
         }
-        setIsLoading(false);
       }
     );
 
@@ -79,7 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (session?.user) {
         setTimeout(() => {
-          fetchProfile(session.user.id);
+          fetchProfile(session.user!.id).finally(() => setIsLoading(false));
         }, 0);
       } else {
         setIsLoading(false);
