@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import heroImage from "@/assets/hero-charity.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  
   return (
     <section id="home" className="relative min-h-screen flex items-center bg-gradient-to-br from-primary-light to-secondary-light overflow-hidden">
       {/* Background Image with Overlay */}
@@ -38,6 +41,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
               <Button 
                 size="lg" 
+                onClick={() => navigate("/donate")}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all"
               >
                 ابدأ التبرع الآن

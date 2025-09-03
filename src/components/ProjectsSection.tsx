@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { MapPin, Users, Calendar, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ProjectsSection = () => {
+  const navigate = useNavigate();
+  
   const projects = [
     {
       id: 1,
@@ -152,7 +155,10 @@ const ProjectsSection = () => {
               </CardContent>
 
               <CardFooter>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full">
+                <Button 
+                  onClick={() => navigate("/donate")}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full"
+                >
                   تبرع للمشروع
                   <ArrowLeft className="mr-2 h-4 w-4" />
                 </Button>

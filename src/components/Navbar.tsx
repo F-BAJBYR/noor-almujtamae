@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -33,9 +35,11 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* CTA Button */}
           <div className="hidden md:block">
-            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
+            <Button 
+              onClick={() => navigate("/donate")}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+            >
               تبرع الآن
             </Button>
           </div>
@@ -82,7 +86,10 @@ const Navbar = () => {
                 تواصل معنا
               </a>
               <div className="px-3 py-2">
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
+                <Button 
+                  onClick={() => navigate("/donate")}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                >
                   تبرع الآن
                 </Button>
               </div>
