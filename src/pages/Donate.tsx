@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import { ArrowLeft, Heart, CreditCard, Smartphone, Building2 } from "lucide-reac
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/components/ui/use-toast";
 
 const Donate = () => {
   const navigate = useNavigate();
@@ -25,10 +27,74 @@ const Donate = () => {
 
   const quickAmounts = ["50", "100", "250", "500", "1000"];
 
-  const handleDonate = () => {
-    const finalAmount = donationType === "custom" ? customAmount : amount;
-    console.log("تبرع بمبلغ:", finalAmount, "ريال");
-    // Here we would integrate with Stripe or payment gateway
+  useEffect(() => {
+    // SEO basics
+    document.title = "التبرع - منصة عطاء";
+    const desc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+    if (desc) {
+      desc.setAttribute("content", "تبرع عبر Stripe بأمان وسهولة لدعم مشاريع منصة عطاء.");
+    } else {
+      const m = document.createElement("meta");
+      m.name = "description";
+      m.content = "تبرع عبر Stripe بأمان وسهولة لدعم مشاريع منصة عطاء.";
+      document.head.appendChild(m);
+    }
+    const canonical = (document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null) || document.createElement("link");
+    canonical.setAttribute("rel", "canonical");
+    canonical.setAttribute("href", window.location.origin + "/donate");
+    if (!canonical.parentElement) document.head.appendChild(canonical);
+
+    // Show toast based on payment status
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get("status");
+    if (status === "success") {
+      toast({ title: "تم الدفع بنجاح", description: "شكرًا لكرمك!" });
+    } else if (status === "cancel") {
+      toast({ title: "تم إلغاء العملية", description: "يمكنك المحاولة مرة أخرى في أي وقت." });
+    }
+  }, []);
+
+  const handleDonate = async () => {
+    try {
+      const finalAmountStr = donationType === "custom" ? customAmount : amount;
+      const finalAmount = parseFloat(finalAmountStr || "0");
+      if (!finalAmount || finalAmount <= 0) {
+        toast({ title: "قيمة غير صالحة", description: "الرجاء إدخال مبلغ تبرع صحيح.", });
+        return;
+      }
+
+      const amountMinor = Math.round(finalAmount * 100); // SAR -> halalas
+      const { data, error } = await supabase.functions.invoke("create-payment", {
+        body: {
+          amount: amountMinor,
+          currency: "sar",
+          donor: {
+            name: donorInfo.name,
+            email: donorInfo.email,
+            phone: donorInfo.phone,
+            isAnonymous: donorInfo.isAnonymous,
+          },
+          payment_method: paymentMethod,
+          success_url: `${window.location.origin}/donate?status=success`,
+          cancel_url: `${window.location.origin}/donate?status=cancel`,
+        },
+      });
+
+      if (error) {
+        console.error(error);
+        toast({ title: "حدث خطأ", description: "تعذّر إنشاء عملية الدفع. حاول مرة أخرى." });
+        return;
+      }
+
+      if (data?.url) {
+        window.open(data.url, "_blank"); // Open Stripe Checkout in new tab
+      } else {
+        toast({ title: "تعذّر المتابعة", description: "لم يتم استلام رابط الدفع." });
+      }
+    } catch (e) {
+      console.error(e);
+      toast({ title: "خطأ غير متوقع", description: "حدثت مشكلة غير متوقعة. حاول لاحقًا." });
+    }
   };
 
   return (
