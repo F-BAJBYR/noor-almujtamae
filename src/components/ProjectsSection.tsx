@@ -156,7 +156,7 @@ const ProjectsSection = () => {
 
               <CardFooter>
                 <Button 
-                  onClick={() => navigate("/donate")}
+                  onClick={() => navigate(`/project/${project.id}`)}
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full"
                 >
                   تبرع للمشروع
@@ -170,6 +170,7 @@ const ProjectsSection = () => {
         {/* View All Button */}
         <div className="text-center">
           <Button 
+            onClick={() => navigate("/projects")}
             variant="outline" 
             size="lg"
             className="border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold px-8 py-4 rounded-full"
