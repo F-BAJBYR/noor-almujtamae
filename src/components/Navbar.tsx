@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Heart, Menu, X } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Heart, Menu, X, Shield, LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, userRole, signOut } = useAuth();
 
   return (
     <nav className="bg-white/90 backdrop-blur-sm border-b border-border sticky top-0 z-50">
@@ -35,16 +38,53 @@ const Navbar = () => {
             <Link to="/contact" className="text-foreground hover:text-primary transition-colors font-medium">
               تواصل معنا
             </Link>
+            
+            {/* Admin Link for authorized users */}
+            {user && (userRole === "admin" || userRole === "moderator") && (
+              <Link
+                to="/admin"
+                className="flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium"
+              >
+                <Shield className="h-4 w-4" />
+                لوحة التحكم
+                <Badge variant={userRole === "admin" ? "destructive" : "secondary"} className="text-xs">
+                  {userRole === "admin" ? "مدير" : "مشرف"}
+                </Badge>
+              </Link>
+            )}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button 
-              onClick={() => navigate("/donate")}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
-            >
-              تبرع الآن
-            </Button>
+          {/* Desktop CTA Buttons */}
+          <div className="hidden md:flex items-center gap-2">
+            {user ? (
+              <>
+                <Button variant="outline" onClick={signOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  تسجيل الخروج
+                </Button>
+                <Button 
+                  onClick={() => navigate("/donate")}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                >
+                  تبرع الآن
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" asChild>
+                  <Link to="/auth">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    تسجيل الدخول
+                  </Link>
+                </Button>
+                <Button 
+                  onClick={() => navigate("/donate")}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                >
+                  تبرع الآن
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -88,16 +128,58 @@ const Navbar = () => {
               >
                 تواصل معنا
               </Link>
-              <div className="px-3 py-2">
-                <Button 
-                  onClick={() => {
-                    navigate("/donate");
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+              
+              {/* Mobile Admin Link */}
+              {user && (userRole === "admin" || userRole === "moderator") && (
+                <Link
+                  to="/admin"
+                  className="flex items-center gap-2 px-3 py-2 text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
                 >
-                  تبرع الآن
-                </Button>
+                  <Shield className="h-4 w-4" />
+                  لوحة التحكم
+                  <Badge variant={userRole === "admin" ? "destructive" : "secondary"} className="text-xs">
+                    {userRole === "admin" ? "مدير" : "مشرف"}
+                  </Badge>
+                </Link>
+              )}
+              
+              <div className="px-3 py-2 space-y-2">
+                {user ? (
+                  <>
+                    <Button variant="outline" onClick={signOut} className="w-full">
+                      <LogOut className="h-4 w-4 mr-2" />
+                      تسجيل الخروج
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        navigate("/donate");
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                    >
+                      تبرع الآن
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" asChild className="w-full">
+                      <Link to="/auth" onClick={() => setIsMenuOpen(false)}>
+                        <LogIn className="h-4 w-4 mr-2" />
+                        تسجيل الدخول
+                      </Link>
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        navigate("/donate");
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                    >
+                      تبرع الآن
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
