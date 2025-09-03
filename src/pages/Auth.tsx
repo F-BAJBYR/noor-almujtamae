@@ -123,117 +123,60 @@ const Auth = () => {
           <CardDescription>إدارة المشاريع الخيرية</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="signin" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="signin">تسجيل الدخول</TabsTrigger>
-              <TabsTrigger value="signup">إنشاء حساب</TabsTrigger>
-            </TabsList>
+          <div className="w-full">
+            <h3 className="text-lg font-semibold text-center mb-4">تسجيل الدخول للإدارة</h3>
             
-            <TabsContent value="signin">
-              <form onSubmit={handleSignIn} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">البريد الإلكتروني</Label>
+            <form onSubmit={handleSignIn} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">البريد الإلكتروني</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  dir="ltr"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">كلمة المرور</Label>
+                <div className="relative">
                   <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                     dir="ltr"
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">كلمة المرور</Label>
-                  <div className="relative">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      dir="ltr"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
-                </Button>
-                <div className="text-sm text-muted-foreground mt-2 flex items-center justify-between">
-                  <span>لم يصلك بريد التأكيد؟</span>
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
-                    onClick={handleResend}
-                    disabled={isResending || !email}
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    {isResending ? "جاري الإرسال..." : "إعادة إرسال رسالة التأكيد"}
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </Button>
                 </div>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="signup">
-              <form onSubmit={handleSignUp} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="displayName">الاسم الكامل</Label>
-                  <Input
-                    id="displayName"
-                    type="text"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">البريد الإلكتروني</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    dir="ltr"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="password">كلمة المرور</Label>
-                  <div className="relative">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      minLength={6}
-                      dir="ltr"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                    </Button>
-                  </div>
-                </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "جاري إنشاء الحساب..." : "إنشاء حساب"}
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
+              </Button>
+              <div className="text-sm text-muted-foreground mt-2 flex items-center justify-between">
+                <span>لم يصلك بريد التأكيد؟</span>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleResend}
+                  disabled={isResending || !email}
+                >
+                  {isResending ? "جاري الإرسال..." : "إعادة إرسال رسالة التأكيد"}
                 </Button>
-              </form>
-            </TabsContent>
-          </Tabs>
+              </div>
+            </form>
+          </div>
         </CardContent>
       </Card>
     </div>
