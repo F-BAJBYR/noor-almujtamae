@@ -75,9 +75,17 @@ const Auth = () => {
 
       navigate("/");
     } catch (error: any) {
+      let errorMessage = error.message;
+      
+      if (error.message.includes("Email not confirmed")) {
+        errorMessage = "يجب تأكيد البريد الإلكتروني أولاً. تحقق من صندوق الوارد أو البريد المؤقت.";
+      } else if (error.message.includes("Invalid login credentials")) {
+        errorMessage = "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+      }
+      
       toast({
         title: "خطأ في تسجيل الدخول",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
