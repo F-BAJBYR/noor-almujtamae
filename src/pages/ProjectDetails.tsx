@@ -17,139 +17,45 @@ const ProjectDetails = () => {
   const [project, setProject] = useState<any>(null);
   const [donationAmount, setDonationAmount] = useState("100");
 
-  const projects = [
-    {
-      id: 1,
-      title: "بناء مدرسة في القصيم",
-      description: "مشروع لبناء مدرسة حديثة تخدم ٥٠٠ طالب وطالبة في منطقة القصيم",
-      fullDescription: `مشروع بناء مدرسة حديثة في منطقة القصيم يهدف إلى توفير بيئة تعليمية متطورة للأطفال والشباب في المنطقة. 
-
-المشروع يشمل:
-• بناء 20 فصل دراسي مجهز بأحدث التقنيات التعليمية
-• مختبرات علمية وحاسوبية متطورة
-• مكتبة عامة تحتوي على أكثر من 5000 كتاب
-• ملاعب رياضية ومرافق ترفيهية
-• قاعة متعددة الأغراض للأنشطة المجتمعية
-
-سيستفيد من المشروع أكثر من 500 طالب وطالبة، ويوفر فرص عمل لأكثر من 50 شخص من أبناء المنطقة.`,
-      location: "القصيم",
-      target: 500000,
-      raised: 350000,
-      donors: 234,
-      daysLeft: 15,
-      category: "تعليم",
-      image: "🏫",
-      features: [
-        "20 فصل دراسي مجهز",
-        "مختبرات علمية وحاسوبية",
-        "مكتبة عامة",
-        "ملاعب رياضية",
-        "قاعة متعددة الأغراض"
-      ],
-      beneficiaries: "500+ طالب وطالبة",
-      impact: "توفير فرص عمل ل 50+ شخص",
-      timeline: "6 أشهر",
-      updates: [
-        { date: "2024-01-15", title: "بدء أعمال الحفر", description: "تم البدء في أعمال الحفر والأساسات" },
-        { date: "2024-01-10", title: "الحصول على التراخيص", description: "تم الحصول على جميع التراخيص اللازمة" },
-        { date: "2024-01-05", title: "إطلاق المشروع", description: "تم إطلاق المشروع رسمياً" }
-      ]
-    },
-    {
-      id: 2,
-      title: "مشروع كسوة الشتاء",
-      description: "توزيع الملابس الشتوية والبطانيات للأسر المحتاجة في المناطق الباردة",
-      fullDescription: `مشروع كسوة الشتاء يهدف إلى توفير الملابس الشتوية والبطانيات للأسر المحتاجة في المناطق الباردة.
-
-المشروع يشمل:
-• توزيع 1000 معطف شتوي للأطفال والكبار
-• توفير 500 بطانية عالية الجودة
-• توزيع أحذية شتوية مقاومة للماء
-• ملابس داخلية شتوية للأطفال
-• جوارب صوفية للعائلات
-
-سيتم التوزيع على الأسر الأكثر احتياجاً في المناطق الباردة خاصة في فصل الشتاء.`,
-      location: "تبوك",
-      target: 200000,
-      raised: 180000,
-      donors: 456,
-      daysLeft: 8,
-      category: "إغاثة",
-      image: "🧥",
-      features: [
-        "1000 معطف شتوي",
-        "500 بطانية عالية الجودة",
-        "أحذية شتوية مقاومة للماء",
-        "ملابس داخلية شتوية",
-        "جوارب صوفية"
-      ],
-      beneficiaries: "300+ عائلة",
-      impact: "حماية من البرد القارس",
-      timeline: "شهر واحد",
-      updates: [
-        { date: "2024-01-12", title: "توزيع الدفعة الثانية", description: "تم توزيع 200 معطف إضافي" },
-        { date: "2024-01-08", title: "بدء التوزيع", description: "تم توزيع أول دفعة من المعاطف" },
-        { date: "2024-01-01", title: "وصول البضائع", description: "وصلت جميع البضائع للمستودع" }
-      ]
-    },
-    {
-      id: 3,
-      title: "حفر بئر ماء",
-      description: "حفر بئر ماء عذب لخدمة قرية نائية وتوفير المياه النظيفة للسكان",
-      fullDescription: `مشروع حفر بئر ماء عذب لخدمة قرية نائية وتوفير المياه النظيفة للسكان.
-
-المشروع يشمل:
-• حفر بئر بعمق 150 متر
-• تركيب مضخة مياه عالية الكفاءة
-• بناء خزان مياه بسعة 50,000 لتر
-• مد شبكة توزيع للمنازل
-• تركيب محطة تنقية مياه
-
-سيوفر المشروع المياه النظيفة لأكثر من 200 عائلة في القرية ويحسن من جودة الحياة بشكل كبير.`,
-      location: "نجران",
-      target: 75000,
-      raised: 32000,
-      donors: 89,
-      daysLeft: 30,
-      category: "بنية تحتية",
-      image: "💧",
-      features: [
-        "بئر بعمق 150 متر",
-        "مضخة مياه عالية الكفاءة",
-        "خزان مياه 50,000 لتر",
-        "شبكة توزيع للمنازل",
-        "محطة تنقية مياه"
-      ],
-      beneficiaries: "200+ عائلة",
-      impact: "توفير مياه نظيفة دائمة",
-      timeline: "3 أشهر",
-      updates: [
-        { date: "2024-01-10", title: "اختيار موقع الحفر", description: "تم اختيار الموقع الأمثل للحفر" },
-        { date: "2024-01-05", title: "المسح الجيولوجي", description: "تم إجراء المسح الجيولوجي للمنطقة" },
-        { date: "2024-01-01", title: "إطلاق المشروع", description: "تم إطلاق المشروع وجمع التبرعات" }
-      ]
-    }
-  ];
-
   useEffect(() => {
-    const projectData = projects.find(p => p.id === parseInt(id || "0"));
-    if (projectData) {
-      setProject(projectData);
-      
-      // SEO
-      document.title = `${projectData.title} - منصة عطاء`;
-      const desc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
-      if (desc) {
-        desc.setAttribute("content", projectData.description);
-      } else {
-        const m = document.createElement("meta");
-        m.name = "description";
-        m.content = projectData.description;
-        document.head.appendChild(m);
+    const fetchProject = async () => {
+      if (!id) {
+        navigate("/projects");
+        return;
       }
-    } else {
-      navigate("/projects");
-    }
+
+      const { data: projectData, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('id', id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Error fetching project:', error);
+        navigate("/projects");
+        return;
+      }
+
+      if (projectData) {
+        setProject(projectData);
+        
+        // SEO
+        document.title = `${projectData.title} - منصة عطاء`;
+        const desc = document.querySelector('meta[name="description"]') as HTMLMetaElement | null;
+        if (desc) {
+          desc.setAttribute("content", projectData.description || projectData.short_description || '');
+        } else {
+          const m = document.createElement("meta");
+          m.name = "description";
+          m.content = projectData.description || projectData.short_description || '';
+          document.head.appendChild(m);
+        }
+      } else {
+        navigate("/projects");
+      }
+    };
+
+    fetchProject();
   }, [id, navigate]);
 
   const getProgressPercentage = (raised: number, target: number) => {
@@ -227,9 +133,14 @@ const ProjectDetails = () => {
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-6xl">{project.image}</span>
+                  <span className="text-6xl">
+                    {project.category === 'تعليم' ? '🏫' : 
+                     project.category === 'صحة' ? '🏥' : 
+                     project.category === 'إغاثة' ? '🧥' : 
+                     project.category === 'بنية تحتية' ? '💧' : '🏛️'}
+                  </span>
                   <Badge variant="secondary" className="text-lg px-4 py-2">
-                    {project.category}
+                    {project.category || 'عام'}
                   </Badge>
                 </div>
                 
@@ -238,30 +149,30 @@ const ProjectDetails = () => {
                 </h1>
                 
                 <p className="text-xl text-foreground/80 mb-8 leading-relaxed">
-                  {project.description}
+                  {project.short_description || project.description}
                 </p>
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-background/50 rounded-lg">
                     <MapPin className="w-6 h-6 mx-auto mb-2 text-primary" />
-                    <div className="font-bold text-lg">{project.location}</div>
+                    <div className="font-bold text-lg">{project.location || 'غير محدد'}</div>
                     <div className="text-sm text-muted-foreground">الموقع</div>
                   </div>
                   <div className="text-center p-4 bg-background/50 rounded-lg">
                     <Users className="w-6 h-6 mx-auto mb-2 text-primary" />
-                    <div className="font-bold text-lg">{project.donors}</div>
+                    <div className="font-bold text-lg">0</div>
                     <div className="text-sm text-muted-foreground">متبرع</div>
                   </div>
                   <div className="text-center p-4 bg-background/50 rounded-lg">
                     <Calendar className="w-6 h-6 mx-auto mb-2 text-primary" />
-                    <div className="font-bold text-lg">{project.daysLeft}</div>
-                    <div className="text-sm text-muted-foreground">يوم متبقي</div>
+                    <div className="font-bold text-lg">متاح</div>
+                    <div className="text-sm text-muted-foreground">الحالة</div>
                   </div>
                   <div className="text-center p-4 bg-background/50 rounded-lg">
                     <Target className="w-6 h-6 mx-auto mb-2 text-primary" />
-                    <div className="font-bold text-lg">{project.beneficiaries}</div>
-                    <div className="text-sm text-muted-foreground">مستفيد</div>
+                    <div className="font-bold text-lg">المجتمع</div>
+                    <div className="text-sm text-muted-foreground">المستفيد</div>
                   </div>
                 </div>
               </div>
@@ -278,19 +189,19 @@ const ProjectDetails = () => {
                   <div className="space-y-3">
                     <div className="flex justify-between">
                       <span className="font-bold text-2xl text-primary">
-                        {formatAmount(project.raised)} ر.س
+                        {formatAmount(project.raised_amount || 0)} ر.س
                       </span>
                       <span className="text-muted-foreground">
-                        من {formatAmount(project.target)} ر.س
+                        من {formatAmount(project.goal_amount || 0)} ر.س
                       </span>
                     </div>
                     <Progress 
-                      value={getProgressPercentage(project.raised, project.target)} 
+                      value={getProgressPercentage(project.raised_amount || 0, project.goal_amount || 1)} 
                       className="h-3"
                     />
                     <div className="text-center">
                       <span className="font-bold text-lg text-primary">
-                        {getProgressPercentage(project.raised, project.target).toFixed(0)}% مكتمل
+                        {getProgressPercentage(project.raised_amount || 0, project.goal_amount || 1).toFixed(0)}% مكتمل
                       </span>
                     </div>
                   </div>
@@ -349,34 +260,11 @@ const ProjectDetails = () => {
                   </CardHeader>
                   <CardContent className="prose prose-lg max-w-none">
                     <div className="whitespace-pre-line text-foreground leading-relaxed">
-                      {project.fullDescription}
+                      {project.description}
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Updates */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-2xl font-bold arabic-text flex items-center gap-3">
-                      <Clock className="w-6 h-6" />
-                      آخر التحديثات
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {project.updates.map((update: any, index: number) => (
-                        <div key={index} className="flex gap-4 p-4 bg-muted/30 rounded-lg">
-                          <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
-                          <div>
-                            <div className="font-bold text-lg">{update.title}</div>
-                            <div className="text-sm text-muted-foreground mb-2">{update.date}</div>
-                            <div className="text-foreground">{update.description}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
               </div>
 
               {/* Sidebar */}
@@ -390,36 +278,23 @@ const ProjectDetails = () => {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">المستفيدون:</span>
-                      <span className="font-medium">{project.beneficiaries}</span>
+                      <span className="text-muted-foreground">الفئة:</span>
+                      <span className="font-medium">{project.category || 'عام'}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">المدة المتوقعة:</span>
-                      <span className="font-medium">{project.timeline}</span>
+                      <span className="text-muted-foreground">الموقع:</span>
+                      <span className="font-medium">{project.location || 'غير محدد'}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">التأثير:</span>
-                      <span className="font-medium">{project.impact}</span>
+                      <span className="text-muted-foreground">الحالة:</span>
+                      <span className="font-medium">{project.status === 'active' ? 'نشط' : 'غير نشط'}</span>
                     </div>
-                  </CardContent>
-                </Card>
-
-                {/* Features */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-xl font-bold arabic-text">
-                      ما يشمله المشروع
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="space-y-2">
-                      {project.features.map((feature: string, index: number) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">تاريخ الإنشاء:</span>
+                      <span className="font-medium">
+                        {new Date(project.created_at).toLocaleDateString('ar-SA')}
+                      </span>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
