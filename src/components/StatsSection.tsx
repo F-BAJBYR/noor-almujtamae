@@ -84,7 +84,7 @@ const StatsSection = () => {
           </div>
 
           <div className="space-y-4">
-            <div className="w-12 h-12 mx-auto bg-secondary/20 rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 mx-auto bg-secondary/20 rounded-full shadow-lg flex items-center justify-center">
               <div className="w-6 h-6 bg-gray-900 rounded-full"></div>
             </div>
             <h3 className="text-lg font-bold text-secondary">أمان تقني</h3>
