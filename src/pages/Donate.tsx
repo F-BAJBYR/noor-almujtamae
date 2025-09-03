@@ -238,11 +238,11 @@ const Donate = () => {
                   {/* Back Button */}
                   <Button 
                     variant="outline" 
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate(-1)}
                     className="w-full h-12 text-lg font-medium"
                   >
                     <ArrowLeft className="w-5 h-5 ml-2" />
-                    العودة للصفحة الرئيسية
+                    العودة للصفحة السابقة
                   </Button>
                 </CardContent>
               </Card>

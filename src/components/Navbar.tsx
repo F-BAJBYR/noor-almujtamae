@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Heart, Menu, X } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -13,28 +13,31 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-              <Heart className="w-6 h-6 text-primary-foreground fill-current" />
-            </div>
-            <span className="text-2xl font-bold text-primary arabic-text">عطاء</span>
+            <Link to="/" className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                <Heart className="w-6 h-6 text-primary-foreground fill-current" />
+              </div>
+              <span className="text-2xl font-bold text-primary arabic-text">عطاء</span>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors font-medium">
+            <Link to="/" className="text-foreground hover:text-primary transition-colors font-medium">
               الرئيسية
-            </a>
-            <a href="#projects" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/#projects" className="text-foreground hover:text-primary transition-colors font-medium">
               المشاريع
-            </a>
-            <a href="#about" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/about" className="text-foreground hover:text-primary transition-colors font-medium">
               من نحن
-            </a>
-            <a href="#contact" className="text-foreground hover:text-primary transition-colors font-medium">
+            </Link>
+            <Link to="/contact" className="text-foreground hover:text-primary transition-colors font-medium">
               تواصل معنا
-            </a>
+            </Link>
           </div>
 
+          {/* CTA Button */}
           <div className="hidden md:block">
             <Button 
               onClick={() => navigate("/donate")}
@@ -57,37 +60,40 @@ const Navbar = () => {
         {isMenuOpen && (
           <div className="md:hidden border-t border-border">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a
-                href="#home"
+              <Link
+                to="/"
                 className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 الرئيسية
-              </a>
-              <a
-                href="#projects"
+              </Link>
+              <Link
+                to="/#projects"
                 className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 المشاريع
-              </a>
-              <a
-                href="#about"
+              </Link>
+              <Link
+                to="/about"
                 className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 من نحن
-              </a>
-              <a
-                href="#contact"
+              </Link>
+              <Link
+                to="/contact"
                 className="block px-3 py-2 text-foreground hover:text-primary hover:bg-accent rounded-md transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 تواصل معنا
-              </a>
+              </Link>
               <div className="px-3 py-2">
                 <Button 
-                  onClick={() => navigate("/donate")}
+                  onClick={() => {
+                    navigate("/donate");
+                    setIsMenuOpen(false);
+                  }}
                   className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
                 >
                   تبرع الآن
