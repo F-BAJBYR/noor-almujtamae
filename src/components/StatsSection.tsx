@@ -52,12 +52,12 @@ const StatsSection = () => {
               key={index}
               className="bg-white/90 backdrop-blur-sm rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
             >
-              <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary-light to-secondary-light flex items-center justify-center ${stat.color}`}>
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary-light to-secondary-light flex items-center justify-center text-gray-900">
                 <stat.icon className="w-8 h-8" />
               </div>
               
               <div className="space-y-2">
-                <div className={`text-3xl md:text-4xl font-bold ${stat.color} arabic-text`}>
+                <div className="text-3xl md:text-4xl font-bold text-gray-900 arabic-text">
                   {stat.number}
                 </div>
                 <div className="text-lg font-semibold text-foreground arabic-text">
