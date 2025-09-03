@@ -56,22 +56,50 @@ const Donate = () => {
 
   const handleDonate = async () => {
     try {
-      const finalAmountStr = donationType === "custom" ? customAmount : amount;
-      const finalAmount = parseFloat(finalAmountStr || "0");
-      if (!finalAmount || finalAmount <= 0) {
-        toast({ title: "قيمة غير صالحة", description: "الرجاء إدخال مبلغ تبرع صحيح.", });
+      // التحقق من صحة البيانات الأساسية
+      if (!donorInfo.name.trim()) {
+        toast({ title: "بيانات مطلوبة", description: "الرجاء إدخال اسمك الكامل.", variant: "destructive" });
+        return;
+      }
+      
+      if (!donorInfo.email.trim()) {
+        toast({ title: "بيانات مطلوبة", description: "الرجاء إدخال بريدك الإلكتروني.", variant: "destructive" });
         return;
       }
 
+      // التحقق من صحة المبلغ
+      const finalAmountStr = donationType === "custom" ? customAmount : amount;
+      const finalAmount = parseFloat(finalAmountStr || "0");
+      if (!finalAmount || finalAmount <= 0) {
+        toast({ title: "مبلغ غير صالح", description: "الرجاء إدخال مبلغ تبرع صحيح.", variant: "destructive" });
+        return;
+      }
+
+      if (finalAmount < 10) {
+        toast({ title: "مبلغ قليل", description: "الحد الأدنى للتبرع هو 10 ريال.", variant: "destructive" });
+        return;
+      }
+
+      // إظهار رسالة تحميل
+      toast({ title: "جاري التحضير...", description: "يتم إعداد عملية الدفع، يرجى الانتظار." });
+
       const amountMinor = Math.round(finalAmount * 100); // SAR -> halalas
+      
+      console.log("إرسال طلب الدفع:", {
+        amount: amountMinor,
+        currency: "sar",
+        donor: donorInfo,
+        payment_method: paymentMethod
+      });
+
       const { data, error } = await supabase.functions.invoke("create-payment", {
         body: {
           amount: amountMinor,
           currency: "sar",
           donor: {
-            name: donorInfo.name,
-            email: donorInfo.email,
-            phone: donorInfo.phone,
+            name: donorInfo.name.trim(),
+            email: donorInfo.email.trim(),
+            phone: donorInfo.phone.trim(),
             isAnonymous: donorInfo.isAnonymous,
           },
           payment_method: paymentMethod,
@@ -80,20 +108,51 @@ const Donate = () => {
         },
       });
 
+      console.log("استجابة السيرفر:", { data, error });
+
       if (error) {
-        console.error(error);
-        toast({ title: "حدث خطأ", description: "تعذّر إنشاء عملية الدفع. حاول مرة أخرى." });
+        console.error("خطأ في استدعاء الدالة:", error);
+        toast({ 
+          title: "حدث خطأ", 
+          description: `تعذّر إنشاء عملية الدفع: ${error.message}`, 
+          variant: "destructive" 
+        });
         return;
       }
 
       if (data?.url) {
-        window.open(data.url, "_blank"); // Open Stripe Checkout in new tab
+        console.log("فتح رابط الدفع:", data.url);
+        toast({ 
+          title: "إعادة توجيه...", 
+          description: "يتم فتح صفحة الدفع في نافذة جديدة." 
+        });
+        
+        // فتح Stripe Checkout في نافذة جديدة
+        const stripeWindow = window.open(data.url, "_blank", "width=800,height=600");
+        
+        // التحقق من فتح النافذة بنجاح
+        if (!stripeWindow) {
+          toast({ 
+            title: "تم حظر النافذة", 
+            description: "يرجى السماح للنوافذ المنبثقة ثم المحاولة مرة أخرى.", 
+            variant: "destructive" 
+          });
+        }
       } else {
-        toast({ title: "تعذّر المتابعة", description: "لم يتم استلام رابط الدفع." });
+        console.error("لم يتم استلام رابط الدفع");
+        toast({ 
+          title: "تعذّر المتابعة", 
+          description: "لم يتم استلام رابط الدفع من السيرفر.", 
+          variant: "destructive" 
+        });
       }
     } catch (e) {
-      console.error(e);
-      toast({ title: "خطأ غير متوقع", description: "حدثت مشكلة غير متوقعة. حاول لاحقًا." });
+      console.error("خطأ غير متوقع:", e);
+      toast({ 
+        title: "خطأ غير متوقع", 
+        description: "حدثت مشكلة غير متوقعة. يرجى المحاولة لاحقًا.", 
+        variant: "destructive" 
+      });
     }
   };
 
@@ -295,10 +354,10 @@ const Donate = () => {
                   {/* Donate Button */}
                   <Button 
                     onClick={handleDonate}
-                    className="w-full h-12 text-lg font-bold bg-primary hover:bg-primary/90"
-                    disabled={!donorInfo.name || !donorInfo.email || (!amount && !customAmount)}
+                    className="w-full h-14 text-lg font-bold bg-primary hover:bg-primary/90 shadow-lg transition-all hover:shadow-xl"
+                    disabled={!donorInfo.name.trim() || !donorInfo.email.trim() || (!amount && !customAmount)}
                   >
-                    <Heart className="w-5 h-5 ml-2" />
+                    <Heart className="w-6 h-6 ml-2" />
                     تأكيد التبرع
                   </Button>
 
