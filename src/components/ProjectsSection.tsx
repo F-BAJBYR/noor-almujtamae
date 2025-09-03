@@ -97,10 +97,10 @@ const ProjectsSection = () => {
                     {project.category}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-foreground arabic-text leading-tight">
+                <h3 className="text-xl font-bold text-gray-900 arabic-text leading-tight">
                   {project.title}
                 </h3>
-                <p className="text-foreground/70 text-sm leading-relaxed">
+                <p className="text-gray-700 text-sm leading-relaxed">
                   {project.description}
                 </p>
               </CardHeader>
@@ -109,7 +109,7 @@ const ProjectsSection = () => {
                 {/* Progress */}
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-foreground/70">المبلغ المجمع</span>
+                    <span className="text-gray-600">المبلغ المجمع</span>
                     <span className="font-bold text-primary">
                       {formatAmount(project.raised)} ر.س
                     </span>
@@ -119,10 +119,10 @@ const ProjectsSection = () => {
                     className="h-2"
                   />
                   <div className="flex justify-between text-sm">
-                    <span className="text-foreground/70">
+                    <span className="text-gray-600">
                       {getProgressPercentage(project.raised, project.target).toFixed(0)}% مكتمل
                     </span>
-                    <span className="text-foreground/70">
+                    <span className="text-gray-600">
                       الهدف: {formatAmount(project.target)} ر.س
                     </span>
                   </div>
@@ -131,22 +131,22 @@ const ProjectsSection = () => {
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div className="space-y-1">
-                    <div className="flex items-center justify-center gap-1 text-foreground/70">
+                    <div className="flex items-center justify-center gap-1 text-gray-600">
                       <MapPin className="w-4 h-4" />
                     </div>
-                    <div className="text-sm font-medium">{project.location}</div>
+                    <div className="text-sm font-medium text-gray-900">{project.location}</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="flex items-center justify-center gap-1 text-foreground/70">
+                    <div className="flex items-center justify-center gap-1 text-gray-600">
                       <Users className="w-4 h-4" />
                     </div>
-                    <div className="text-sm font-medium">{project.donors} متبرع</div>
+                    <div className="text-sm font-medium text-gray-900">{project.donors} متبرع</div>
                   </div>
                   <div className="space-y-1">
-                    <div className="flex items-center justify-center gap-1 text-foreground/70">
+                    <div className="flex items-center justify-center gap-1 text-gray-600">
                       <Calendar className="w-4 h-4" />
                     </div>
-                    <div className="text-sm font-medium">{project.daysLeft} يوم</div>
+                    <div className="text-sm font-medium text-gray-900">{project.daysLeft} يوم</div>
                   </div>
                 </div>
               </CardContent>

@@ -101,7 +101,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Tajawal', 'Inter', sans-serif;
+    font-family: 'Cairo', 'Tajawal', 'Inter', sans-serif;
     direction: rtl;
   }
 
@@ -121,7 +121,7 @@ All colors MUST be HSL.
 
   /* Arabic font support */
   .arabic-text {
-    font-family: 'Tajawal', 'Amiri', serif;
+    font-family: 'Cairo', 'Tajawal', 'Amiri', serif;
   }
 
   /* Smooth animations */
