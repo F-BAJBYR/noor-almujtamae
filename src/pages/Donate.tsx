@@ -122,9 +122,10 @@ const Donate = () => {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid md:grid-cols-2 gap-8">
               {/* Donation Options */}
-              <Card className="shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-primary arabic-text">
+              <Card className="shadow-xl border-0 bg-gradient-to-br from-background to-background/95">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-2xl font-bold text-primary arabic-text flex items-center gap-3">
+                    <Heart className="w-7 h-7 text-primary" />
                     اختر مبلغ التبرع
                   </CardTitle>
                 </CardHeader>
