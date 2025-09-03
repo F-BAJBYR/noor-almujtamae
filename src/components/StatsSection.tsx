@@ -85,11 +85,11 @@ const StatsSection = () => {
 
           <div className="space-y-4">
             <div className="w-12 h-12 mx-auto bg-secondary/20 rounded-full flex items-center justify-center">
-              <div className="w-6 h-6 bg-secondary rounded-full"></div>
+              <span className="text-2xl font-bold text-gray-900">3</span>
             </div>
-            <h3 className="text-lg font-bold text-secondary">أمان تقني</h3>
+            <h3 className="text-lg font-bold text-secondary">أعلى معايير الأمان السيبراني</h3>
             <p className="text-foreground/70 text-sm">
-              أعلى معايير الأمان السيبراني وحماية البيانات المالية والشخصية
+              وحماية البيانات المالية والشخصية
             </p>
           </div>
 
