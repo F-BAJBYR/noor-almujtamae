@@ -1,73 +1,57 @@
-# Welcome to noor almujtamae
+# 🌙 Welcome to Noor AlMujtamae
 
-## Project info
+Noor AlMujtamae is a modern web application designed to support **Islamic communities, mosques, events, and charitable projects**.  
+It provides a clean, responsive, and innovative platform for managing activities, donations, and engagement.
 
-**URL**: https://lovable.dev/projects/1e0f7c78-278c-4665-9937-07a84d75da96
+---
 
-## How can I edit this code?
+## 🚀 Tech Stack
+This project is built with the following technologies:
 
-There are several ways of editing your application.
+- ⚡ **Vite** – fast and modern build tool  
+- 🔷 **TypeScript** – strongly-typed JavaScript for reliability  
+- ⚛️ **React** – component-based frontend framework  
+- 🎨 **Tailwind CSS** – utility-first CSS framework for responsive design  
+- 🧩 **shadcn-ui** – modern and accessible UI components  
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1e0f7c78-278c-4665-9937-07a84d75da96) and start prompting.
+## 🛠️ Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+To run the project locally:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# 1. Clone the repository
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# 2. Navigate into the project
+cd noor-almujtamae
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 3. Install dependencies
+npm install
+
+# 4. Start the development server
 npm run dev
-```
+📦 Deployment
+You can deploy the project on any modern hosting platform such as:
 
-**Edit a file directly in GitHub**
+Vercel
+Netlify
+DigitalOcean
+Or your own custom server
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+For production, build with:
 
-**Use GitHub Codespaces**
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+🤝 Contributing
 
-## What technologies are used for this project?
+Contributions are welcome!
+Fork the repository
+Create a new branch (git checkout -b feature-name)
+Commit changes and push
+Open a Pull Request
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/1e0f7c78-278c-4665-9937-07a84d75da96) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+📧 Contact
+For support, inquiries, or collaborations:
+Email: snc@sparkneuralcore.com
